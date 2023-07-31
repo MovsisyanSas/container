@@ -14,4 +14,13 @@ int main() {
 	list.print();
 	list.erase(3);
 	list.print();
+	list.push_front(-1);
+	list.print();
+	list.pop_front();
+	list.print();
+	std::cout << "front: " << list.front() << std::endl;
+	std::cout << "back: " << list.back() << std::endl;
+	list.clean();
+	std::cout << "after cleaning: " << std::endl;
+	list.print();
 }

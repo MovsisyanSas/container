@@ -22,24 +22,25 @@ public:
     List& operator=(List&& obj) = default;
 
     ~List() {
-        Node<T>* temp1 = head;
-        while (temp1 != nullptr) {
-            Node<T>* temp2 = temp1;
-            temp1 = temp1->next;
-            delete temp2;
-        }
+        clean();
     }
 
 
 public:
     void print() {
-        Node<T>* temp = head;
-        while (temp != nullptr)
+        if (head != nullptr)
         {
-            std::cout << temp->m_val << " ";
-            temp = temp->next;
+            Node<T>* temp = head;
+            while (temp != nullptr)
+            {
+                std::cout << temp->m_val << " ";
+                temp = temp->next;
+            }
+            std::cout << std::endl;
         }
-        std::cout << std::endl;
+        else {
+            std::cout << "List is empty" << std::endl;
+        }
     }
     void push_back(const T& obj) {
         Node<T>* newNode = new Node<T>(obj);
@@ -78,9 +79,7 @@ public:
     }
     void insert(int pos, const T& obj) {
         if (pos == 0) {
-            Node<T>* newNode = new Node<T>(obj);
-            newNode->next = head;
-            head = newNode;
+            push_front(obj);
         }
         else {
             Node<T>* temp = head;
@@ -102,9 +101,7 @@ public:
     void erase(int pos) {
         if (pos == 0) {
             if (head != nullptr) {
-                Node<T>* temp = head;
-                head = head->next;
-                delete temp;
+                pop_front();
             }
         }
         else {
@@ -121,6 +118,52 @@ public:
             Node<T>* nodeToDelete = temp->next;
             temp->next = nodeToDelete->next;
             delete nodeToDelete;
+        }
+    }
+    T front() {
+        if (head != nullptr)
+        {
+            return head->m_val;
+        }
+        else {
+            std::cout << "List is empty" << std::endl;
+        }
+    }
+    T back() {
+        if (head == nullptr)
+        {
+            std::cout << "List is empty" << std::endl;
+        }
+        else if (head->next == nullptr) {
+            return head->m_val;
+        }
+        else
+        {
+            Node<T>* temp = head;
+            while (temp->next != nullptr)
+            {
+                temp = temp->next;
+            }
+            return temp->m_val;
+        }
+    }
+    void push_front(const T& obj) {
+        Node<T>* newNode = new Node<T>(obj);
+        newNode->next = head;
+        head = newNode;
+    }
+    void pop_front() {
+        Node<T>* temp = head;
+        head = head->next;
+        delete temp;
+        temp = nullptr;
+    }
+    void clean() {
+        while (head != nullptr) {
+            Node<T>* temp2 = head;
+            head = head->next;
+            delete temp2;
+            temp2 = nullptr;
         }
     }
 };
