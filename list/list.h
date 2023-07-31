@@ -10,13 +10,11 @@ struct Node {
 template <typename T>
 class List {
 private:
-    unsigned int size;
     Node<T>* head;
 public:
-    List() : head(nullptr),size(0)  {}
+    List() : head(nullptr) {}
     List(const Node<T>& obj) {
         head = new Node<T>(obj.m_val);
-        size = 1;
     }
     List(const List& obj) = default;
     List& operator=(const List& obj) = default;
@@ -24,16 +22,20 @@ public:
     List& operator=(List&& obj) = default;
 
     ~List() {
-        
+        Node<T>* temp1 = head;
+        while (temp1 != nullptr) {
+            Node<T>* temp2 = temp1;
+            temp1 = temp1->next;
+            delete temp2;
+        }
     }
 
+
 public:
-    int Size() {
-        return size;
-    }
     void print() {
         Node<T>* temp = head;
-        for (int i = 0; i < size; i++){
+        while (temp != nullptr)
+        {
             std::cout << temp->m_val << " ";
             temp = temp->next;
         }
@@ -47,26 +49,25 @@ public:
         }
         else {
             Node<T>* temp = head;
-            for (int i = 0; i < size - 1; i++)
+            while (temp->next != nullptr)
             {
                 temp = temp->next;
             }
             temp->next = newNode;
         }
-        size++;
     }
     void pop_back() {
-        if (size == 0) {
+        if (head == nullptr) {
             return; 
         }
-        else if (size == 1) {
+        else if (head->next == nullptr) {
             delete head; 
             head = nullptr;
         }
         else {
             Node<T>* previous = nullptr;
             Node<T>* temp = head;
-            for (int i = 0; i < size - 1; i++)
+            while (temp->next != nullptr)
             {
                 previous = temp;
                 temp = temp->next;
@@ -74,53 +75,52 @@ public:
             delete temp;
             previous->next = nullptr;
         }
-        size--;
     }
     void insert(int pos, const T& obj) {
-        if (pos <= size) {
+        if (pos == 0) {
             Node<T>* newNode = new Node<T>(obj);
-            if (pos == 0) {
-                newNode->next = head;
-                head = newNode;
-            }
-            else {
-                Node<T>* temp = head;
-                Node<T>* previous = nullptr;
-                for (int i = 0; i < pos; i++) {
-                    previous = temp;
-                    temp = temp->next;
-                }
-                previous->next = newNode;
-                newNode->next = temp;
-            }
-            size++;
+            newNode->next = head;
+            head = newNode;
         }
         else {
-            std::cout << "Invalid position for insertion." << std::endl;
-        }
-    }
-    void erase(int pos) {
-        if (pos < size) {
-            Node<T>* previous = nullptr;
             Node<T>* temp = head;
+            for (int i = 0; i < pos - 1 && temp != nullptr; i++) {
+                temp = temp->next;
+            }
 
-            if (pos == 0) {
-                head = temp->next;
-                delete temp;
+            if (temp == nullptr) {
+                std::cout << "Invalid position for insertion." << std::endl;
+                return;
             }
-            else {
-                for (int i = 0; i < pos; i++) {
-                    previous = temp;
-                    temp = temp->next;
-                }
-                previous->next = temp->next;
-                delete temp;
-            }
-            size--;
-        }
-        else {
-            std::cout << "Invalid position for erasing." << std::endl;
+
+            Node<T>* newNode = new Node<T>(obj);
+            newNode->next = temp->next;
+            temp->next = newNode;
         }
     }
 
+    void erase(int pos) {
+        if (pos == 0) {
+            if (head != nullptr) {
+                Node<T>* temp = head;
+                head = head->next;
+                delete temp;
+            }
+        }
+        else {
+            Node<T>* temp = head;
+            for (int i = 0; i < pos - 1 && temp != nullptr; i++) {
+                temp = temp->next;
+            }
+
+            if (temp == nullptr || temp->next == nullptr) {
+                std::cout << "Invalid position for erasing." << std::endl;
+                return;
+            }
+
+            Node<T>* nodeToDelete = temp->next;
+            temp->next = nodeToDelete->next;
+            delete nodeToDelete;
+        }
+    }
 };
