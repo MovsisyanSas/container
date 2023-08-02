@@ -12,16 +12,18 @@ template <typename T>
 class List {
 private:
     Node<T>* head;
+    Node<T>* end;
 
 public:
-    List() : head(nullptr) {}
+    List() : head(nullptr), end(nullptr) {}
     List(const Node<T>& obj) {
         head = new Node<T>(obj.m_val);
+        end = head;
     }
-    List(const List& obj) = default;
-    List& operator=(const List& obj) = default;
-    List(List&& obj) = default;
-    List& operator=(List&& obj) = default;
+    List(const List& obj) = delete;
+    List& operator=(const List& obj) = delete;
+    List(List&& obj) = delete;
+    List& operator=(List&& obj) = delete;
 
     ~List() {
         clean();
@@ -46,14 +48,12 @@ public:
         Node<T>* newNode = new Node<T>(obj);
         if (head == nullptr) {
             head = newNode;
+            end = head;
         }
         else {
-            Node<T>* temp = head;
-            while (temp->next != nullptr) {
-                temp = temp->next;
-            }
-            temp->next = newNode;
-            newNode->prev = temp;
+            end->next = newNode;
+            newNode->prev = end;
+            end = newNode;
         }
     }
 
@@ -64,15 +64,12 @@ public:
         else if (head->next == nullptr) {
             delete head;
             head = nullptr;
+            end = nullptr;
         }
         else {
-            Node<T>* temp = head;
-            while (temp->next != nullptr) {
-                temp = temp->next;
-            }
-            if (temp->prev != nullptr) {
-                temp->prev->next = nullptr;
-            }
+            Node<T>* temp = end;
+            end = end->prev;
+            end->next = nullptr;
             delete temp;
         }
     }
@@ -124,6 +121,13 @@ public:
                 temp->next->prev = temp->prev;
             }
 
+            if (temp == head) {
+                head = temp->next;
+            }
+            if (temp == end) {
+                end = temp->prev;
+            }
+
             delete temp;
         }
     }
@@ -138,24 +142,25 @@ public:
     }
 
     T back() {
-        if (head == nullptr) {
-            std::cout << "List is empty" << std::endl;
+        if (end != nullptr) {
+            return end->m_val;
         }
         else {
-            Node<T>* temp = head;
-            while (temp->next != nullptr) {
-                temp = temp->next;
-            }
-            return temp->m_val;
+            std::cout << "List is empty" << std::endl;
         }
     }
+
     void push_front(const T& obj) {
         Node<T>* newNode = new Node<T>(obj);
         if (head != nullptr) {
             head->prev = newNode;
             newNode->next = head;
+            head = newNode;
         }
-        head = newNode;
+        else {
+            head = newNode;
+            end = newNode;
+        }
     }
 
     void pop_front() {
@@ -164,6 +169,9 @@ public:
             head = head->next;
             if (head != nullptr) {
                 head->prev = nullptr;
+            }
+            else {
+                end = nullptr;
             }
             delete temp;
         }
@@ -175,5 +183,6 @@ public:
             head = head->next;
             delete temp;
         }
+        end = nullptr;
     }
 };
