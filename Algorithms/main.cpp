@@ -39,7 +39,7 @@ int main() {
 	std::cout << "Before sort(vector): ";
 	print(vec);
 
-	sort::bubble_sort(vec);
+	sort::selection_sort(vec);
 	std::cout << "After sort(vector): ";
 	print(vec);
 	
@@ -48,7 +48,7 @@ int main() {
 	std::cout << "Before sort(list): ";
 	print(ls);
 
-	sort::bubble_sort(ls);
+	sort::selection_sort(ls);
 	std::cout << "After sort(list): ";
 	print(ls);
 }

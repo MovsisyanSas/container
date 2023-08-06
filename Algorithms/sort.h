@@ -20,25 +20,38 @@ namespace sort {
 	template<typename T>
 	void bubble_sort(std::vector<T>& arr) {
 		for (int step = 0; step < arr.size(); step++) {
+			bool swapped = false;
 			for (int i = 0; i < arr.size() - step - 1; i++) {
 				if (arr[i] > arr[i + 1]) {
-					swap(arr[i], arr[i + 1]);
+					sort::swap(arr[i], arr[i + 1]);
+					swapped = true;
 				}
+			}
+			if (!swapped) {
+				break;
 			}
 		}
 	}
 
+
+
 	template<typename T>
 	void bubble_sort(std::list<T>& list) {
-		for (auto it = list.begin(); it != list.end(); ++it) {
-			for (auto innerIt = list.begin(); std::next(innerIt) != list.end(); ++innerIt) {
-				auto nextIt = std::next(innerIt);
-				if (*innerIt > *nextIt) {
-					std::iter_swap(innerIt, nextIt);
+		for (auto it = list.begin(); it != std::prev(list.end()); ++it) {
+			bool swapped = false;
+			for (auto inner_it = list.begin(); std::next(inner_it) != std::end(list); ++inner_it) {
+				auto next_it = std::next(inner_it);
+				if (*inner_it > *next_it) {
+					std::iter_swap(inner_it, next_it);
+					swapped = true;
 				}
+			}
+			if (!swapped) {
+				break;
 			}
 		}
 	}
+
 
 	//int partition(int arr[], int low, int high) {
 	//	int pivot = arr[high];
@@ -67,22 +80,36 @@ namespace sort {
 	//	}
 	//}
 
-	//void selectionSort(int arr[], int size) {
-	//	for (int step = 0; step < size - 1; step++)
-	//	{
-	//		int min_idx = step;
-	//		for (int i = step + 1; i < size; i++)
-	//		{
-	//			if (arr[i] < arr[min_idx])
-	//			{
-	//				min_idx = i;
-	//			}
-	//		}
-	//		int temp = arr[step];
-	//		arr[step] = arr[min_idx];
-	//		arr[min_idx] = temp;
-	//	}
-	//}
+	template<typename T>
+	void selection_sort(std::list<T>& list) {
+		for (auto it = list.begin(); it != list.end(); ++it) {
+			auto min_it = it;
+			for (auto it2 = std::next(it); it2 != list.end(); ++it2) {
+				if (*it2 < *min_it) {
+					min_it = it2;
+				}
+			}
+			if (min_it != it) {
+				std::iter_swap(it, min_it);
+			}
+		}
+	}
+
+	template<typename T>
+	void selection_sort(std::vector<T>& arr) {
+		for (int step = 0; step < arr.size() - 1; step++)
+		{
+			int min_idx = step;
+			for (int i = step + 1; i < arr.size(); i++)
+			{
+				if (arr[i] < arr[min_idx])
+				{
+					min_idx = i;
+				}
+			}
+			sort::swap(arr[min_idx], arr[step]);
+		}
+	}
 
 	//void insertionSort(int arr[], int size) {
 	//	int key, j;
