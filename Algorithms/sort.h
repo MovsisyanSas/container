@@ -111,20 +111,36 @@ namespace sort {
 		}
 	}
 
-	//void insertionSort(int arr[], int size) {
-	//	int key, j;
-	//	for (int i = 1; i < size; i++)
-	//	{
-	//		key = arr[i];
-	//		j = i - 1;
-	//		while (arr[j] > key && j >= 0)
-	//		{
-	//			arr[j + 1] = arr[j];
-	//			j++;
-	//		}
-	//		arr[j + 1] = key;
-	//	}
-	//}
+	template<typename T>
+	void insertion_sort(std::vector<T>& arr) {
+		T key;
+		int j;
+		for (int i = 1; i < arr.size(); i++) {
+			key = arr[i];
+			j = i - 1;
+			while (j >= 0 && arr[j] > key) {
+				arr[j + 1] = arr[j];
+				j--;
+			}
+			arr[j + 1] = key;
+		}
+	}
+
+
+	template<typename T>
+	void insertion_sort(std::list<T>& list) {
+		for (auto it = std::next(list.begin()); it != list.end(); ++it) {
+			T key = *it;
+			auto j = std::prev(it);
+			while (j != list.begin() && *j > key) {
+				*std::next(j) = std::move(*j); //use std::move to not hurt list
+				--j;
+			}
+			*std::next(j) = key;
+		}
+	}
+
+
 
 	//void merge(int arr[], int left, int middle, int right) {
 	//	int size_1 = middle - left + 1;
