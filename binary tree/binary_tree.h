@@ -1,5 +1,7 @@
 #pragma once
-#include<cmath>
+#include <cmath>
+#include <stack>
+#include <queue>
 
 template<typename T>
 struct Node {
@@ -56,29 +58,54 @@ public:
 		element = 1 + root->l + root->r;
 	}
 	int levels() {
-		return std::log2(element);
+		return std::log2(element + 1);
 	}
 	int leaves() {
 		return (element + 1) / 2;
 	}
-	void display() {
-		for (int i = 1; i <= levels(); i++)
+	void display(std::string order) {
+		if (order == "inorder")
 		{
-			traversal(root, i);
+			inorder_traversal(root);
+			std::cout << std::endl;
+		}
+		else if (order == "preorder")
+		{
+			preorder_traversal(root);
+			std::cout << std::endl;
+		}
+		else if (order == "postorder")
+		{
+			postorder_traversal(root);
+			std::cout << std::endl;
 		}
 	}
 private:
-	void traversal(Node<T>* obj, int level) {
-		if (obj == nullptr)
+	void inorder_traversal(Node<T>* nd) {
+		if (nd == nullptr)
 		{
 			return;
 		}
-		else if (level == 1) {
-			std::cout << obj->m_val << "->";
+		inorder_traversal(nd->left);
+		std::cout << nd->m_val << ' ';
+		inorder_traversal(nd->right);
+	}
+	void preorder_traversal(Node<T>* nd) {
+		if (nd == nullptr)
+		{
+			return;
 		}
-		else {
-			traversal(obj->left, level - 1);
-			traversal(obj->right, level - 1);
+		std::cout << nd->m_val << ' ';
+		preorder_traversal(nd->left);
+		preorder_traversal(nd->right);
+	}
+	void postorder_traversal(Node<T>* nd) {
+		if (nd == nullptr)
+		{
+			return;
 		}
+		inorder_traversal(nd->left);
+		inorder_traversal(nd->right);
+		std::cout << nd->m_val << ' ';
 	}
 };
