@@ -79,6 +79,11 @@ public:
 			postorder_traversal(root);
 			std::cout << std::endl;
 		}
+		else if (order == "level")
+		{
+			level_by_level_traversal(root);
+			std::cout << std::endl;
+		}
 	}
 private:
 	void inorder_traversal(Node<T>* nd) {
@@ -107,5 +112,26 @@ private:
 		inorder_traversal(nd->left);
 		inorder_traversal(nd->right);
 		std::cout << nd->m_val << ' ';
+	}
+	void level_by_level_traversal(Node<T>* nd) {
+		if (!nd) {
+			return;
+		}
+
+		std::queue<Node<T>*> q;
+		q.push(nd);
+
+		while (!q.empty()) {
+			Node<T>* temp = q.front();
+			q.pop();
+
+			std::cout << temp->m_val << " ";
+
+			if (temp->left)
+				q.push(temp->left);
+
+			if (temp->right)
+				q.push(temp->right);
+		}
 	}
 };

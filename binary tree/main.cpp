@@ -19,4 +19,5 @@ int main() {
 	tree.display("inorder");
 	tree.display("preorder");
 	tree.display("postorder");
+	tree.display("level");
 }
