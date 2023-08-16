@@ -39,7 +39,7 @@ int main() {
 	std::cout << "Before sort(vector): ";
 	print(vec);
 
-	sort::insertion_sort(vec);
+	sort::MergeSort<int>(vec, 0, vec.size() - 1);
 	std::cout << "After sort(vector): ";
 	print(vec);
 	
@@ -48,7 +48,7 @@ int main() {
 	std::cout << "Before sort(list): ";
 	print(ls);
 
-	sort::insertion_sort(ls);
+	sort::insertion_sort<int>(ls);
 	std::cout << "After sort(list): ";
 	print(ls);
 }
