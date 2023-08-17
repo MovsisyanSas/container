@@ -1,4 +1,4 @@
-#include "input_iterator.h"
+#include "vector.h"
 
 int main() {
 	my_vector<int> vec;
@@ -6,7 +6,7 @@ int main() {
 	{
 		vec.push_back(i);
 	}
-	for (input_iterator<int> it = vec.begin(); it != vec.end(); ++it)
+	for (my_vector<int>::Iterator it = vec.begin(); it != vec.end(); ++it)
 	{
 		std::cout << *it << " ";
 	}

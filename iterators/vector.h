@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "input_iterator.h"
 
 template<typename T>
 class my_vector
@@ -7,6 +8,8 @@ class my_vector
 	T* ptr = nullptr;
 	int Size = 0;
 	int capacity = 0;
+public:
+	using Iterator = input_iterator<T>;
 public:
 	my_vector() = default;
 	my_vector(int S) {
@@ -174,9 +177,9 @@ public:
 		}
 	}
 	void swap(int pos1, int pos2) {
-		ptr[pos1] = ptr[pos1] + ptr[pos2];
-		ptr[pos2] = ptr[pos1] - ptr[pos2];
-		ptr[pos1] = ptr[pos1] - ptr[pos2];
+		T temp = ptr[pos1];
+		ptr[pos1] = ptr[pos2];
+		ptr[pos2] = temp;
 	}
 	void erase(int pos) {
 		if (pos < Size - 1)
@@ -229,6 +232,6 @@ public:
 		ptr[pos] = value;
 		Size++;
 	}
-	T* begin() { return ptr; }
-	T* end() { return ptr + Size; }
+	Iterator begin() { return Iterator(ptr); }
+	Iterator end() { return Iterator(ptr + Size); }
 };
