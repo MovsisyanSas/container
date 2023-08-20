@@ -17,6 +17,27 @@ namespace sort {
 		return a > b ? a : b;
 	}
 
+	void counting_sort(std::vector<int>& arr,int k) {
+		std::vector<int> temp(k, 0);
+
+		for (int i = 0; i < arr.size(); i++) {
+			temp[arr[i]]++;
+		}
+
+		for (int i = 1; i < temp.size(); i++) {
+			temp[i] += temp[i - 1];
+		}
+
+		std::vector<int> result(arr.size());
+
+		for (int i = 0; i < arr.size(); i++) {
+			result[temp[arr[i]] - 1] = arr[i];
+			temp[arr[i]]--;
+		}
+
+		arr = result;
+	}
+
 	template<typename T>
 	void bubble_sort(std::vector<T>& arr) {
 		for (int step = 0; step < arr.size(); step++) {

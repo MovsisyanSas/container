@@ -39,7 +39,7 @@ int main() {
 	std::cout << "Before sort(vector): ";
 	print(vec);
 
-	sort::MergeSort<int>(vec, 0, vec.size() - 1);
+	sort::counting_sort(vec,10);
 	std::cout << "After sort(vector): ";
 	print(vec);
 	
