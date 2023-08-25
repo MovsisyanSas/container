@@ -15,4 +15,6 @@ int main() {
 	vector.erase(3);
 	vector.print();
 	std::cout << vector.size() << std::endl;
+	std::cout << vector.at(vector.size());
+	std::cout << vector.at(-5);
 }

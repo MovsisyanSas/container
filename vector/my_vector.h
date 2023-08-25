@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "exception.h"
 
 template<typename T>
 class my_vector
@@ -192,5 +193,29 @@ public:
 
 		ptr[pos] = value;
 		Size++;
+	}
+	bool empty() {
+		return Size == NULL;
+	}
+	T at(int n) { //usage in print()
+		try
+		{
+			if (n >= Size)
+				throw("Err: Out of range");
+			else if (n < 0)
+				throw OutOfRangeException();
+			else {
+				return ptr[n];
+			}
+		}
+		catch (const char* s)
+		{
+			std::cout << s << std::endl;
+			return T{};
+		}	
+		catch (const std::exception& err) {
+			std::cout << err.what() << std::endl;
+			return T{};
+		}
 	}
 };
