@@ -198,24 +198,12 @@ public:
 		return Size == NULL;
 	}
 	T at(int n) { //usage in print()
-		try
-		{
-			if (n >= Size)
-				throw("Err: Out of range");
-			else if (n < 0)
-				throw OutOfRangeException();
-			else {
-				return ptr[n];
-			}
-		}
-		catch (const char* s)
-		{
-			std::cout << s << std::endl;
-			return T{};
-		}	
-		catch (const std::exception& err) {
-			std::cout << err.what() << std::endl;
-			return T{};
+		if (n >= Size)
+			throw("Err: Out of range");
+		else if (n < 0)
+			throw OutOfRangeException();
+		else {
+			return ptr[n];
 		}
 	}
 };
